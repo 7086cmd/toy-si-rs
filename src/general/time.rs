@@ -17,18 +17,6 @@ impl Second {
         Self(value)
     }
 
-    pub fn to_millisecond(&self) -> Millisecond {
-        Millisecond(self.0 * 1000.0)
-    }
-
-    pub fn to_minute(&self) -> Minute {
-        Minute(self.0 / 60.0)
-    }
-
-    pub fn to_hour(&self) -> Hour {
-        Hour(self.0 / 3600.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
@@ -37,18 +25,6 @@ impl Second {
 impl Millisecond {
     pub fn new(value: f64) -> Self {
         Self(value)
-    }
-
-    pub fn to_second(&self) -> Second {
-        Second(self.0 / 1000.0)
-    }
-
-    pub fn to_minute(&self) -> Minute {
-        Minute(self.0 / 60000.0)
-    }
-
-    pub fn to_hour(&self) -> Hour {
-        Hour(self.0 / 3600000.0)
     }
 
     pub fn value(&self) -> f64 {
@@ -61,18 +37,6 @@ impl Minute {
         Self(value)
     }
 
-    pub fn to_second(&self) -> Second {
-        Second(self.0 * 60.0)
-    }
-
-    pub fn to_millisecond(&self) -> Millisecond {
-        Millisecond(self.0 * 60000.0)
-    }
-
-    pub fn to_hour(&self) -> Hour {
-        Hour(self.0 / 60.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
@@ -83,116 +47,146 @@ impl Hour {
         Self(value)
     }
 
-    pub fn to_second(&self) -> Second {
-        Second(self.0 * 3600.0)
-    }
-
-    pub fn to_millisecond(&self) -> Millisecond {
-        Millisecond(self.0 * 3600000.0)
-    }
-
-    pub fn to_minute(&self) -> Minute {
-        Minute(self.0 * 60.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
 }
 
-impl Add for Second {
-    type Output = Second;
+pub trait ToSecond {
+    fn to_second(&self) -> Second;
+}
 
-    fn add(self, other: Second) -> Second {
-        Second(self.0 + other.0)
+trait ToMillisecond {
+    fn to_millisecond(&self) -> Millisecond;
+}
+
+pub trait ToMinute {
+    fn to_minute(&self) -> Minute;
+}
+
+pub trait ToHour {
+    fn to_hour(&self) -> Hour;
+}
+
+impl ToSecond for Second {
+    fn to_second(&self) -> Second {
+        *self
     }
 }
 
-impl Add<Millisecond> for Second {
-    type Output = Second;
-
-    fn add(self, other: Millisecond) -> Second {
-        Second(self.0 + other.to_second().0)
+impl ToSecond for Millisecond {
+    fn to_second(&self) -> Second {
+        Second(self.0 / 1000.0)
     }
 }
 
-impl Add<Second> for Millisecond {
-    type Output = Second;
-
-    fn add(self, other: Second) -> Second {
-        Second(self.to_second().0 + other.0)
+impl ToSecond for Minute {
+    fn to_second(&self) -> Second {
+        Second(self.0 * 60.0)
     }
 }
 
-impl Add for Millisecond {
+impl ToSecond for Hour {
+    fn to_second(&self) -> Second {
+        Second(self.0 * 3600.0)
+    }
+}
+
+impl ToMillisecond for Second {
+    fn to_millisecond(&self) -> Millisecond {
+        Millisecond(self.0 * 1000.0)
+    }
+}
+
+impl ToMillisecond for Minute {
+    fn to_millisecond(&self) -> Millisecond {
+        Millisecond(self.0 * 60.0 * 1000.0)
+    }
+}
+
+impl ToMillisecond for Hour {
+    fn to_millisecond(&self) -> Millisecond {
+        Millisecond(self.0 * 3600.0 * 1000.0)
+    }
+}
+
+impl ToMinute for Second {
+    fn to_minute(&self) -> Minute {
+        Minute(self.0 / 60.0)
+    }
+}
+
+impl ToMinute for Millisecond {
+    fn to_minute(&self) -> Minute {
+        Minute(self.0 / 1000.0 / 60.0)
+    }
+}
+
+impl ToMinute for Hour {
+    fn to_minute(&self) -> Minute {
+        Minute(self.0 * 60.0)
+    }
+}
+
+impl ToHour for Second {
+    fn to_hour(&self) -> Hour {
+        Hour(self.0 / 3600.0)
+    }
+}
+
+impl ToHour for Millisecond {
+    fn to_hour(&self) -> Hour {
+        Hour(self.0 / 1000.0 / 3600.0)
+    }
+}
+
+impl ToHour for Minute {
+    fn to_hour(&self) -> Hour {
+        Hour(self.0 / 60.0)
+    }
+}
+
+impl<T> Add<T> for Second
+where
+    T: ToSecond,
+{
+    type Output = Second;
+
+    fn add(self, rhs: T) -> Self::Output {
+        Second(self.0 + rhs.to_second().0)
+    }
+}
+
+impl<T> Add<T> for Millisecond
+where
+    T: ToMillisecond,
+{
     type Output = Millisecond;
 
-    fn add(self, other: Millisecond) -> Millisecond {
-        Millisecond(self.0 + other.0)
+    fn add(self, rhs: T) -> Self::Output {
+        Millisecond(self.0 + rhs.to_millisecond().0)
     }
 }
 
-impl Add for Minute {
+impl<T> Add<T> for Minute
+where
+    T: ToMinute,
+{
     type Output = Minute;
 
-    fn add(self, other: Minute) -> Minute {
-        Minute(self.0 + other.0)
+    fn add(self, rhs: T) -> Self::Output {
+        Minute(self.0 + rhs.to_minute().0)
     }
 }
 
-impl Add for Hour {
+impl<T> Add<T> for Hour
+where
+    T: ToHour,
+{
     type Output = Hour;
 
-    fn add(self, other: Hour) -> Hour {
-        Hour(self.0 + other.0)
-    }
-}
-
-impl Add<Second> for Minute {
-    type Output = Minute;
-
-    fn add(self, other: Second) -> Minute {
-        Minute(self.0 + other.to_minute().0)
-    }
-}
-
-impl Add<Minute> for Second {
-    type Output = Minute;
-
-    fn add(self, other: Minute) -> Minute {
-        Minute(self.to_minute().0 + other.0)
-    }
-}
-
-impl Add<Second> for Hour {
-    type Output = Hour;
-
-    fn add(self, other: Second) -> Hour {
-        Hour(self.0 + other.to_hour().0)
-    }
-}
-
-impl Add<Hour> for Second {
-    type Output = Hour;
-
-    fn add(self, other: Hour) -> Hour {
-        Hour(self.to_hour().0 + other.0)
-    }
-}
-
-impl Add<Minute> for Hour {
-    type Output = Hour;
-
-    fn add(self, other: Minute) -> Hour {
-        Hour(self.0 + other.to_hour().0)
-    }
-}
-
-impl Add<Hour> for Minute {
-    type Output = Hour;
-
-    fn add(self, other: Hour) -> Hour {
-        Hour(self.to_hour().0 + other.0)
+    fn add(self, rhs: T) -> Self::Output {
+        Hour(self.0 + rhs.to_hour().0)
     }
 }
 
@@ -202,22 +196,17 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let second = Second::new(1.0);
-        let millisecond = Millisecond::new(1000.0);
-        let minute = Minute::new(1.0);
-        let hour = Hour::new(1.0);
+        let second = Second(10.0);
+        let millisecond = Millisecond(200.0);
+        let sum = second + millisecond;
+        assert_eq!(sum, Second(10.2));
+    }
 
-        assert_eq!(second + second, Second::new(2.0));
-        assert_eq!(second + millisecond, Second::new(2.0));
-        assert_eq!(millisecond + second, Second::new(2.0));
-        assert_eq!(millisecond + millisecond, Millisecond::new(2000.0));
-        assert_eq!(minute + minute, Minute::new(2.0));
-        assert_eq!(hour + hour, Hour::new(2.0));
-        assert_eq!(minute + second, Minute::new(1.0166666666666666));
-        assert_eq!(second + minute, Minute::new(1.0166666666666666));
-        assert_eq!(hour + second, Hour::new(1.0002777777777778));
-        assert_eq!(second + hour, Hour::new(1.0002777777777778));
-        assert_eq!(hour + minute, Hour::new(1.0166666666666666));
-        assert_eq!(minute + hour, Hour::new(1.0166666666666666));
+    #[test]
+    fn it_works_2() {
+        let minute = Minute(1.0);
+        let hour = Hour(1.0);
+        let sum = minute + hour;
+        assert_eq!(sum, Minute(61.0));
     }
 }

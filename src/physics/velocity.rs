@@ -2,6 +2,7 @@ use std::ops::{Div, Mul, Add};
 use crate::general::phantom::PhantomUnit;
 use crate::general::time::Second;
 use crate::physics::length::Meter;
+use crate::physics::mechanics::acceleration::MeterPerSquareSecond;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct MeterPerSecond(f64);
@@ -74,6 +75,14 @@ impl Div<Meter> for MeterPerSecond {
 
     fn div(self, rhs: Meter) -> Self::Output {
         Second::new(self.0 / rhs.value())
+    }
+}
+
+impl Div<Second> for MeterPerSecond {
+    type Output = MeterPerSquareSecond;
+
+    fn div(self, rhs: Second) -> Self::Output {
+        MeterPerSquareSecond::new(self.0 / rhs.value())
     }
 }
 

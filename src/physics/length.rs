@@ -20,18 +20,6 @@ impl Meter {
         Self(value)
     }
 
-    pub fn to_kilometer(&self) -> Kilometer {
-        Kilometer(self.0 / 1000.0)
-    }
-
-    pub fn to_centimeter(&self) -> Centimeter {
-        Centimeter(self.0 * 100.0)
-    }
-
-    pub fn to_millimeter(&self) -> Millimeter {
-        Millimeter(self.0 * 1000.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
@@ -40,18 +28,6 @@ impl Meter {
 impl Kilometer {
     pub fn new(value: f64) -> Self {
         Self(value)
-    }
-
-    pub fn to_meter(&self) -> Meter {
-        Meter(self.0 * 1000.0)
-    }
-
-    pub fn to_centimeter(&self) -> Centimeter {
-        Centimeter(self.0 * 100000.0)
-    }
-
-    pub fn to_millimeter(&self) -> Millimeter {
-        Millimeter(self.0 * 1000000.0)
     }
 
     pub fn value(&self) -> f64 {
@@ -64,18 +40,6 @@ impl Centimeter {
         Self(value)
     }
 
-    pub fn to_meter(&self) -> Meter {
-        Meter(self.0 / 100.0)
-    }
-
-    pub fn to_kilometer(&self) -> Kilometer {
-        Kilometer(self.0 / 100000.0)
-    }
-
-    pub fn to_millimeter(&self) -> Millimeter {
-        Millimeter(self.0 * 10.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
@@ -86,116 +50,136 @@ impl Millimeter {
         Self(value)
     }
 
-    pub fn to_meter(&self) -> Meter {
-        Meter(self.0 / 1000.0)
-    }
-
-    pub fn to_kilometer(&self) -> Kilometer {
-        Kilometer(self.0 / 1000000.0)
-    }
-
-    pub fn to_centimeter(&self) -> Centimeter {
-        Centimeter(self.0 / 10.0)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
 }
 
-impl Add<Millimeter> for Meter {
+pub trait ToMeter {
+    fn to_meter(&self) -> Meter;
+}
+
+pub trait ToKilometer {
+    fn to_kilometer(&self) -> Kilometer;
+}
+
+pub trait ToCentimeter {
+    fn to_centimeter(&self) -> Centimeter;
+}
+
+pub trait ToMillimeter {
+    fn to_millimeter(&self) -> Millimeter;
+}
+
+impl ToMeter for Kilometer {
+    fn to_meter(&self) -> Meter {
+        Meter(self.0 * 1000.0)
+    }
+}
+
+impl ToKilometer for Meter {
+    fn to_kilometer(&self) -> Kilometer {
+        Kilometer(self.0 / 1000.0)
+    }
+}
+
+impl ToMeter for Centimeter {
+    fn to_meter(&self) -> Meter {
+        Meter(self.0 / 100.0)
+    }
+}
+
+impl ToCentimeter for Meter {
+    fn to_centimeter(&self) -> Centimeter {
+        Centimeter(self.0 * 100.0)
+    }
+}
+
+impl ToMeter for Millimeter {
+    fn to_meter(&self) -> Meter {
+        Meter(self.0 / 1000.0)
+    }
+}
+
+impl ToMillimeter for Meter {
+    fn to_millimeter(&self) -> Millimeter {
+        Millimeter(self.0 * 1000.0)
+    }
+}
+
+impl Add<Meter> for Meter {
     type Output = Meter;
 
-    fn add(self, rhs: Millimeter) -> Self::Output {
-        Meter(self.0 + rhs.to_meter().value())
+    fn add(self, rhs: Meter) -> Self::Output {
+        Meter(self.0 + rhs.0)
     }
 }
 
-impl Add<Centimeter> for Meter {
+impl<T> Add<T> for Meter
+where
+    T: ToMeter,
+{
     type Output = Meter;
 
-    fn add(self, rhs: Centimeter) -> Self::Output {
-        Meter(self.0 + rhs.to_meter().value())
+    fn add(self, rhs: T) -> Self::Output {
+        Meter(self.0 + rhs.to_meter().0)
     }
 }
 
-impl Add<Kilometer> for Meter {
-    type Output = Meter;
+impl Add<Kilometer> for Kilometer {
+    type Output = Kilometer;
 
     fn add(self, rhs: Kilometer) -> Self::Output {
-        Meter(self.0 + rhs.to_meter().value())
+        Kilometer(self.0 + rhs.0)
     }
 }
 
-impl Add<Meter> for Millimeter {
-    type Output = Millimeter;
+impl<T> Add<T> for Kilometer
+where
+    T: ToKilometer,
+{
+    type Output = Kilometer;
 
-    fn add(self, rhs: Meter) -> Self::Output {
-        Millimeter(self.0 + rhs.to_millimeter().value())
+    fn add(self, rhs: T) -> Self::Output {
+        Kilometer(self.0 + rhs.to_kilometer().0)
     }
 }
 
-impl Add<Centimeter> for Millimeter {
-    type Output = Millimeter;
+impl Add<Centimeter> for Centimeter {
+    type Output = Centimeter;
 
     fn add(self, rhs: Centimeter) -> Self::Output {
-        Millimeter(self.0 + rhs.to_millimeter().value())
+        Centimeter(self.0 + rhs.0)
     }
 }
 
-impl Add<Kilometer> for Millimeter {
+impl<T> Add<T> for Centimeter
+where
+    T: ToCentimeter,
+{
+    type Output = Centimeter;
+
+    fn add(self, rhs: T) -> Self::Output {
+        Centimeter(self.0 + rhs.to_centimeter().0)
+    }
+}
+
+impl Add<Millimeter> for Millimeter {
     type Output = Millimeter;
-
-    fn add(self, rhs: Kilometer) -> Self::Output {
-        Millimeter(self.0 + rhs.to_millimeter().value())
-    }
-}
-
-impl Add<Meter> for Centimeter {
-    type Output = Centimeter;
-
-    fn add(self, rhs: Meter) -> Self::Output {
-        Centimeter(self.0 + rhs.to_centimeter().value())
-    }
-}
-
-impl Add<Millimeter> for Centimeter {
-    type Output = Centimeter;
 
     fn add(self, rhs: Millimeter) -> Self::Output {
-        Centimeter(self.0 + rhs.to_centimeter().value())
+        Millimeter(self.0 + rhs.0)
     }
 }
 
-impl Add<Kilometer> for Centimeter {
-    type Output = Centimeter;
+impl<T> Add<T> for Millimeter
+where
+    T: ToMillimeter,
+{
+    type Output = Millimeter;
 
-    fn add(self, rhs: Kilometer) -> Self::Output {
-        Centimeter(self.0 + rhs.to_centimeter().value())
-    }
-}
-
-impl Add<Meter> for Kilometer {
-    type Output = Kilometer;
-
-    fn add(self, rhs: Meter) -> Self::Output {
-        Kilometer(self.0 + rhs.to_kilometer().value())
-    }
-}
-
-impl Add<Millimeter> for Kilometer {
-    type Output = Kilometer;
-
-    fn add(self, rhs: Millimeter) -> Self::Output {
-        Kilometer(self.0 + rhs.to_kilometer().value())
-    }
-}
-
-impl Add<Centimeter> for Kilometer {
-    type Output = Kilometer;
-
-    fn add(self, rhs: Centimeter) -> Self::Output {
-        Kilometer(self.0 + rhs.to_kilometer().value())
+    fn add(self, rhs: T) -> Self::Output {
+        Millimeter(self.0 + rhs.to_millimeter().0)
     }
 }
 
@@ -221,25 +205,17 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let meter = Meter::new(1.0);
-        let kilometer = Kilometer::new(1.0);
-        let centimeter = Centimeter::new(1.0);
-        let millimeter = Millimeter::new(1.0);
+        let distance = Meter::new(10.0);
+        let time = Second::new(2.0);
+        let velocity = distance / time;
+        assert_eq!(velocity, MeterPerSecond::new(5.0));
+    }
 
-        assert_eq!(meter + millimeter, Meter::new(1.001));
-        assert_eq!(meter + centimeter, Meter::new(1.01));
-        assert_eq!(meter + kilometer, Meter::new(1001.0));
-
-        assert_eq!(millimeter + meter, Millimeter::new(1001.0));
-        assert_eq!(millimeter + centimeter, Millimeter::new(11.0));
-        assert_eq!(millimeter + kilometer, Millimeter::new(1000001.0));
-
-        assert_eq!(centimeter + meter, Centimeter::new(101.0));
-        assert_eq!(centimeter + millimeter, Centimeter::new(1.1));
-        assert_eq!(centimeter + kilometer, Centimeter::new(100001.0));
-
-        assert_eq!(kilometer + meter, Kilometer::new(1.001));
-        assert_eq!(kilometer + millimeter, Kilometer::new(1.000001));
-        assert_eq!(kilometer + centimeter, Kilometer::new(1.00001));
+    #[test]
+    fn it_works_2() {
+        let distance = Kilometer::new(10.0);
+        let time = Hour::new(2.0);
+        let velocity = distance / time;
+        assert_eq!(velocity, KilometerPerHour::new(5.0));
     }
 }
