@@ -1,19 +1,19 @@
 use std::ops::Add;
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Second(f32);
+pub struct Second(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Millisecond(f32);
+pub struct Millisecond(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Minute(f32);
+pub struct Minute(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Hour(f32);
+pub struct Hour(f64);
 
 impl Second {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -29,13 +29,13 @@ impl Second {
         Hour(self.0 / 3600.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Millisecond {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -51,13 +51,13 @@ impl Millisecond {
         Hour(self.0 / 3600000.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Minute {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -73,13 +73,13 @@ impl Minute {
         Hour(self.0 / 60.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Hour {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -95,7 +95,7 @@ impl Hour {
         Minute(self.0 * 60.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
@@ -213,11 +213,11 @@ mod tests {
         assert_eq!(millisecond + millisecond, Millisecond::new(2000.0));
         assert_eq!(minute + minute, Minute::new(2.0));
         assert_eq!(hour + hour, Hour::new(2.0));
-        assert_eq!(minute + second, Minute::new(1.0166667));
-        assert_eq!(second + minute, Minute::new(1.0166667));
-        assert_eq!(hour + second, Hour::new(1.0002778));
-        assert_eq!(second + hour, Hour::new(1.0002778));
-        assert_eq!(hour + minute, Hour::new(1.0166667));
-        assert_eq!(minute + hour, Hour::new(1.0166667));
+        assert_eq!(minute + second, Minute::new(1.0166666666666666));
+        assert_eq!(second + minute, Minute::new(1.0166666666666666));
+        assert_eq!(hour + second, Hour::new(1.0002777777777778));
+        assert_eq!(second + hour, Hour::new(1.0002777777777778));
+        assert_eq!(hour + minute, Hour::new(1.0166666666666666));
+        assert_eq!(minute + hour, Hour::new(1.0166666666666666));
     }
 }

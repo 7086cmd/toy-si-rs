@@ -1,19 +1,22 @@
+use std::ops::Div;
 use std::ops::Add;
+use crate::general::time::{Hour, Second};
+use crate::physics::velocity::{KilometerPerHour, MeterPerSecond};
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Meter(f32);
+pub struct Meter(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Kilometer(f32);
+pub struct Kilometer(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Centimeter(f32);
+pub struct Centimeter(f64);
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
-pub struct Millimeter(f32);
+pub struct Millimeter(f64);
 
 impl Meter {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -29,13 +32,13 @@ impl Meter {
         Millimeter(self.0 * 1000.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Kilometer {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -51,13 +54,13 @@ impl Kilometer {
         Millimeter(self.0 * 1000000.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Centimeter {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -73,13 +76,13 @@ impl Centimeter {
         Millimeter(self.0 * 10.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
 
 impl Millimeter {
-    pub fn new(value: f32) -> Self {
+    pub fn new(value: f64) -> Self {
         Self(value)
     }
 
@@ -95,7 +98,7 @@ impl Millimeter {
         Centimeter(self.0 / 10.0)
     }
 
-    pub fn value(&self) -> f32 {
+    pub fn value(&self) -> f64 {
         self.0
     }
 }
@@ -193,6 +196,22 @@ impl Add<Centimeter> for Kilometer {
 
     fn add(self, rhs: Centimeter) -> Self::Output {
         Kilometer(self.0 + rhs.to_kilometer().value())
+    }
+}
+
+impl Div<Second> for Meter {
+    type Output = MeterPerSecond;
+
+    fn div(self, rhs: Second) -> Self::Output {
+        MeterPerSecond::new(self.0 / rhs.value())
+    }
+}
+
+impl Div<Hour> for Kilometer {
+    type Output = KilometerPerHour;
+
+    fn div(self, rhs: Hour) -> Self::Output {
+        KilometerPerHour::new(self.0 / rhs.value())
     }
 }
 
