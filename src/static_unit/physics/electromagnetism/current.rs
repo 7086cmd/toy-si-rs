@@ -1,5 +1,5 @@
-use crate::physics::electromagnetism::current_element::AmpereMeter;
-use crate::physics::length::ToMeter;
+use crate::static_unit::physics::electromagnetism::current_element::AmpereMeter;
+use crate::static_unit::physics::length::ToMeter;
 use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
@@ -100,7 +100,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::physics::length::{Centimeter, Meter};
+    use crate::static_unit::physics::length::{Centimeter, Meter};
 
     #[test]
     fn it_works() {

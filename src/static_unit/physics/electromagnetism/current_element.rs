@@ -1,5 +1,5 @@
-use crate::physics::electromagnetism::magnetic_flux_density::Tesla;
-use crate::physics::mechanics::force::Newton;
+use crate::static_unit::physics::electromagnetism::magnetic_flux_density::Tesla;
+use crate::static_unit::physics::mechanics::force::Newton;
 use std::ops::Mul;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

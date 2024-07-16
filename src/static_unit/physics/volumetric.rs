@@ -1,5 +1,5 @@
-use crate::physics::area::SquareMeter;
-use crate::physics::length::ToMeter;
+use crate::static_unit::physics::area::SquareMeter;
+use crate::static_unit::physics::length::ToMeter;
 use std::ops::Div;
 
 #[derive(Debug, Copy, Clone, PartialEq, PartialOrd)]
@@ -107,7 +107,7 @@ where
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::physics::length::Meter;
+    use crate::static_unit::physics::length::Meter;
 
     #[test]
     fn numeric_conversation() {

@@ -1,10 +1,13 @@
-use crate::general::time::{Hour, Second};
-use crate::physics::velocity::{KilometerPerHour, MeterPerSecond};
+use crate::static_unit::general::time::{Hour, Second};
+use crate::static_unit::physics::velocity::{KilometerPerHour, MeterPerSecond};
 use std::ops::Add;
 use std::ops::Div;
+use crate::BasicUnit;
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Meter(f64);
+
+impl BasicUnit for Meter {}
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Kilometer(f64);

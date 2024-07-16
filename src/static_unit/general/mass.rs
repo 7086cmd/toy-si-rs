@@ -1,7 +1,10 @@
 use std::ops::Add;
+use crate::BasicUnit;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Kilogram(f64);
+
+impl BasicUnit for Kilogram {}
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Gram(f64);

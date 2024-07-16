@@ -1,5 +1,5 @@
-use crate::general::time::{Second, ToSecond};
-use crate::physics::velocity::MeterPerSecond;
+use crate::static_unit::general::time::{Second, ToSecond};
+use crate::static_unit::physics::velocity::MeterPerSecond;
 use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

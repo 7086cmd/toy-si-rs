@@ -1,7 +1,7 @@
-use crate::physics::electromagnetism::charge::Coulomb;
-use crate::physics::electromagnetism::potential::Volt;
-use crate::physics::length::{Meter, ToMeter};
-use crate::physics::mechanics::force::Newton;
+use crate::static_unit::physics::electromagnetism::charge::Coulomb;
+use crate::static_unit::physics::electromagnetism::potential::Volt;
+use crate::static_unit::physics::length::{Meter, ToMeter};
+use crate::static_unit::physics::mechanics::force::Newton;
 use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

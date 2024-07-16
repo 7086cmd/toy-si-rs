@@ -1,8 +1,9 @@
-use crate::general::mass::Kilogram;
-use crate::general::time::Second;
-use crate::physics::mechanics::force::Newton;
-use crate::physics::velocity::MeterPerSecond;
+use crate::static_unit::general::mass::Kilogram;
+use crate::static_unit::general::time::{Second, ToSecond};
+use crate::static_unit::physics::mechanics::force::Newton;
+use crate::static_unit::physics::velocity::{MeterPerSecond, ToMeterPerSecond};
 use std::ops::{Add, Div, Mul};
+use crate::static_unit::physics::mechanics::energy::ToJoule;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct KilogramMeterPerSecond(f64);
@@ -43,11 +44,19 @@ impl Div<Newton> for KilogramMeterPerSecond {
     }
 }
 
-impl Div<Second> for KilogramMeterPerSecond {
+impl<T> Div<T> for KilogramMeterPerSecond where T: ToSecond {
     type Output = Newton;
 
-    fn div(self, time: Second) -> Self::Output {
-        Newton::new(self.0 / time.value())
+    fn div(self, time: T) -> Self::Output {
+        Newton::new(self.0 / time.to_second().value())
+    }
+}
+
+impl<T: ToMeterPerSecond> Mul<T> for KilogramMeterPerSecond {
+    type Output = KilogramMeterPerSecond;
+
+    fn mul(self, rhs: T) -> Self::Output {
+        KilogramMeterPerSecond::new(self.0 * rhs.to_meter_per_second().value())
     }
 }
 

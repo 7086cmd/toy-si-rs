@@ -1,5 +1,5 @@
-use crate::physics::electromagnetism::charge::Coulomb;
-use crate::physics::electromagnetism::potential::Volt;
+use crate::static_unit::physics::electromagnetism::charge::Coulomb;
+use crate::static_unit::physics::electromagnetism::potential::Volt;
 use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

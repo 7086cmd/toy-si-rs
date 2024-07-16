@@ -1,5 +1,5 @@
-use crate::physics::area::{SquareMeter, ToSquareMeter};
-use crate::physics::mechanics::force::Newton;
+use crate::static_unit::physics::area::{SquareMeter, ToSquareMeter};
+use crate::static_unit::physics::mechanics::force::Newton;
 use std::ops::Mul;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
@@ -29,7 +29,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::physics::area::SquareKilometer;
+    use crate::static_unit::physics::area::SquareKilometer;
 
     #[test]
     fn numeric_conversion() {

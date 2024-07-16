@@ -1,7 +1,7 @@
-use crate::general::time::{Second, ToSecond};
-use crate::physics::electromagnetism::current::Ampere;
-use crate::physics::electromagnetism::current_element::AmpereMeter;
-use crate::physics::velocity::ToMeterPerSecond;
+use crate::static_unit::general::time::{Second, ToSecond};
+use crate::static_unit::physics::electromagnetism::current::Ampere;
+use crate::static_unit::physics::electromagnetism::current_element::AmpereMeter;
+use crate::static_unit::physics::velocity::ToMeterPerSecond;
 use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

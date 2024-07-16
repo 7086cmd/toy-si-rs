@@ -1,5 +1,6 @@
-mod general;
-mod physics;
+mod static_unit;
+
+pub trait BasicUnit {}
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right

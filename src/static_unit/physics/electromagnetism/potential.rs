@@ -1,8 +1,8 @@
-use crate::physics::electromagnetism::capacitance::{Farad, ToFarad};
-use crate::physics::electromagnetism::charge::Coulomb;
-use crate::physics::electromagnetism::electronic_field_strength::NewtonPerCoulomb;
-use crate::physics::length::{Meter, ToMeter};
-use crate::physics::mechanics::energy::Joule;
+use crate::static_unit::physics::electromagnetism::capacitance::{Farad, ToFarad};
+use crate::static_unit::physics::electromagnetism::charge::Coulomb;
+use crate::static_unit::physics::electromagnetism::electronic_field_strength::NewtonPerCoulomb;
+use crate::static_unit::physics::length::{Meter, ToMeter};
+use crate::static_unit::physics::mechanics::energy::Joule;
 use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

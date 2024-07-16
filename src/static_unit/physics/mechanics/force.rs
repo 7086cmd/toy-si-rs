@@ -1,9 +1,9 @@
-use crate::general::mass::Kilogram;
-use crate::general::time::Second;
-use crate::physics::length::Meter;
-use crate::physics::mechanics::acceleration::MeterPerSquareSecond;
-use crate::physics::mechanics::energy::Joule;
-use crate::physics::mechanics::momentum::KilogramMeterPerSecond;
+use crate::static_unit::general::mass::Kilogram;
+use crate::static_unit::general::time::Second;
+use crate::static_unit::physics::length::Meter;
+use crate::static_unit::physics::mechanics::acceleration::MeterPerSquareSecond;
+use crate::static_unit::physics::mechanics::energy::Joule;
+use crate::static_unit::physics::mechanics::momentum::KilogramMeterPerSecond;
 use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

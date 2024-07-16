@@ -1,7 +1,10 @@
 use std::ops::Add;
+use crate::BasicUnit;
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Second(f64);
+
+impl BasicUnit for Second {}
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Millisecond(f64);

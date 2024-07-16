@@ -1,7 +1,7 @@
-use crate::general::phantom::PhantomUnit;
-use crate::general::time::{Second, ToSecond};
-use crate::physics::length::Meter;
-use crate::physics::mechanics::acceleration::MeterPerSquareSecond;
+use crate::static_unit::general::phantom::PhantomUnit;
+use crate::static_unit::general::time::{Second, ToSecond};
+use crate::static_unit::physics::length::Meter;
+use crate::static_unit::physics::mechanics::acceleration::MeterPerSquareSecond;
 use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]

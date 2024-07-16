@@ -1,4 +1,4 @@
-use crate::physics::length::{Meter, ToMeter};
+use crate::static_unit::physics::length::{Meter, ToMeter};
 use std::ops::{Div, Mul};
 
 #[derive(Debug, Copy, Clone, PartialEq, PartialOrd)]

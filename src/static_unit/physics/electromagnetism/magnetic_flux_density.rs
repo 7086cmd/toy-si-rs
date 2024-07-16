@@ -1,5 +1,5 @@
-use crate::physics::electromagnetism::current_element::AmpereMeter;
-use crate::physics::mechanics::force::Newton;
+use crate::static_unit::physics::electromagnetism::current_element::AmpereMeter;
+use crate::static_unit::physics::mechanics::force::Newton;
 use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
