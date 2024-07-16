@@ -1,10 +1,10 @@
-use std::ops::{Add, Div, Mul};
 use crate::general::mass::Kilogram;
 use crate::general::time::Second;
 use crate::physics::length::Meter;
 use crate::physics::mechanics::acceleration::MeterPerSquareSecond;
 use crate::physics::mechanics::energy::Joule;
 use crate::physics::mechanics::momentum::KilogramMeterPerSecond;
+use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Newton(f64);

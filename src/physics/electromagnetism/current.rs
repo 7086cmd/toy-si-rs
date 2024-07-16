@@ -1,4 +1,6 @@
-use std::ops::Add;
+use crate::physics::electromagnetism::current_element::AmpereMeter;
+use crate::physics::length::ToMeter;
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Ampere(f64);
@@ -84,9 +86,21 @@ where
     }
 }
 
+impl<T> Mul<T> for Ampere
+where
+    T: ToMeter,
+{
+    type Output = AmpereMeter;
+
+    fn mul(self, rhs: T) -> Self::Output {
+        AmpereMeter::new(self.0 * rhs.to_meter().value())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::physics::length::{Centimeter, Meter};
 
     #[test]
     fn it_works() {
@@ -102,5 +116,13 @@ mod tests {
         let current_2 = Milliampere::new(200.0);
         let current_3 = current + current_2;
         assert_eq!(current_3, Ampere::new(10.2));
+    }
+
+    #[test]
+    fn it_works_3() {
+        let current = Ampere::new(10.0);
+        let distance = Centimeter::new(200.0);
+        let current_element = current * distance;
+        assert_eq!(current_element, AmpereMeter::new(20.0));
     }
 }

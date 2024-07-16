@@ -1,8 +1,8 @@
-use std::ops::{Add, Mul, Div};
 use crate::general::mass::Kilogram;
 use crate::general::time::Second;
 use crate::physics::mechanics::force::Newton;
 use crate::physics::velocity::MeterPerSecond;
+use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct KilogramMeterPerSecond(f64);
@@ -56,7 +56,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn numeric_conversation() {
         let momentum = KilogramMeterPerSecond::new(10.0);
         let mass = Kilogram::new(2.0);
         let velocity = momentum / mass;
@@ -64,7 +64,7 @@ mod tests {
     }
 
     #[test]
-    fn it_works_2() {
+    fn inter_unit() {
         let momentum = KilogramMeterPerSecond::new(10.0);
         let force = Newton::new(2.0);
         let time = Second::new(5.0);

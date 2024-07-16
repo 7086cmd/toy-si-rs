@@ -1,8 +1,8 @@
-use std::ops::{Mul, Add};
 use crate::physics::electromagnetism::charge::Coulomb;
 use crate::physics::electromagnetism::potential::Volt;
 use crate::physics::length::{Meter, ToMeter};
 use crate::physics::mechanics::force::Newton;
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct NewtonPerCoulomb(f64);
@@ -35,7 +35,10 @@ impl Mul<Coulomb> for NewtonPerCoulomb {
     }
 }
 
-impl<T> Mul<T> for NewtonPerCoulomb where T: ToMeter {
+impl<T> Mul<T> for NewtonPerCoulomb
+where
+    T: ToMeter,
+{
     type Output = Volt;
 
     fn mul(self, rhs: T) -> Self::Output {

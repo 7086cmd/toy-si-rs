@@ -1,7 +1,7 @@
-use std::ops::Div;
-use std::ops::Add;
 use crate::general::time::{Hour, Second};
 use crate::physics::velocity::{KilometerPerHour, MeterPerSecond};
+use std::ops::Add;
+use std::ops::Div;
 
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Meter(f64);
@@ -71,6 +71,12 @@ pub trait ToMillimeter {
     fn to_millimeter(&self) -> Millimeter;
 }
 
+impl ToMeter for Meter {
+    fn to_meter(&self) -> Meter {
+        *self
+    }
+}
+
 impl ToMeter for Kilometer {
     fn to_meter(&self) -> Meter {
         Meter(self.0 * 1000.0)
@@ -104,14 +110,6 @@ impl ToMeter for Millimeter {
 impl ToMillimeter for Meter {
     fn to_millimeter(&self) -> Millimeter {
         Millimeter(self.0 * 1000.0)
-    }
-}
-
-impl Add<Meter> for Meter {
-    type Output = Meter;
-
-    fn add(self, rhs: Meter) -> Self::Output {
-        Meter(self.0 + rhs.0)
     }
 }
 

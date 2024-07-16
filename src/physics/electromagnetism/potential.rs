@@ -1,9 +1,9 @@
-use std::ops::{Add, Div, Mul};
 use crate::physics::electromagnetism::capacitance::{Farad, ToFarad};
 use crate::physics::electromagnetism::charge::Coulomb;
 use crate::physics::electromagnetism::electronic_field_strength::NewtonPerCoulomb;
 use crate::physics::length::{Meter, ToMeter};
 use crate::physics::mechanics::energy::Joule;
+use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Volt(f64);
@@ -42,7 +42,10 @@ impl Div<NewtonPerCoulomb> for Volt {
     }
 }
 
-impl<T> Div<T> for Volt where T: ToMeter {
+impl<T> Div<T> for Volt
+where
+    T: ToMeter,
+{
     type Output = NewtonPerCoulomb;
 
     fn div(self, rhs: T) -> Self::Output {
@@ -50,7 +53,10 @@ impl<T> Div<T> for Volt where T: ToMeter {
     }
 }
 
-impl<T> Mul<T> for Volt where T: ToFarad {
+impl<T> Mul<T> for Volt
+where
+    T: ToFarad,
+{
     type Output = Farad;
 
     fn mul(self, rhs: T) -> Self::Output {

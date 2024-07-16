@@ -1,6 +1,6 @@
-use std::ops::{Add, Mul, Div};
 use crate::physics::electromagnetism::charge::Coulomb;
 use crate::physics::electromagnetism::potential::Volt;
+use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Farad(f64);
@@ -56,7 +56,10 @@ impl Add<Farad> for Farad {
     }
 }
 
-impl<T> Add<T> for Farad where T: ToFarad {
+impl<T> Add<T> for Farad
+where
+    T: ToFarad,
+{
     type Output = Farad;
 
     fn add(self, rhs: T) -> Self::Output {
@@ -72,7 +75,10 @@ impl Add<Microfarad> for Microfarad {
     }
 }
 
-impl<T> Add<T> for Microfarad where T: ToMicrofarad {
+impl<T> Add<T> for Microfarad
+where
+    T: ToMicrofarad,
+{
     type Output = Microfarad;
 
     fn add(self, rhs: T) -> Self::Output {

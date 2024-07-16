@@ -1,6 +1,6 @@
-use std::ops::{Add, Mul};
 use crate::general::time::{Second, ToSecond};
 use crate::physics::velocity::MeterPerSecond;
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct MeterPerSquareSecond(f64);
@@ -23,7 +23,10 @@ impl Add<MeterPerSquareSecond> for MeterPerSquareSecond {
     }
 }
 
-impl<T> Mul<T> for MeterPerSquareSecond where T: ToSecond {
+impl<T> Mul<T> for MeterPerSquareSecond
+where
+    T: ToSecond,
+{
     type Output = MeterPerSecond;
 
     fn mul(self, rhs: T) -> Self::Output {

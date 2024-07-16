@@ -1,8 +1,8 @@
-use std::ops::{Div, Mul, Add};
 use crate::general::phantom::PhantomUnit;
-use crate::general::time::Second;
+use crate::general::time::{Second, ToSecond};
 use crate::physics::length::Meter;
 use crate::physics::mechanics::acceleration::MeterPerSquareSecond;
+use std::ops::{Add, Div, Mul};
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct MeterPerSecond(f64);
@@ -15,10 +15,6 @@ impl MeterPerSecond {
         Self(value)
     }
 
-    pub fn to_kilometer_per_hour(&self) -> KilometerPerHour {
-        KilometerPerHour(self.0 * 3.6)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
@@ -29,36 +25,61 @@ impl KilometerPerHour {
         Self(value)
     }
 
-    pub fn to_meter_per_second(&self) -> MeterPerSecond {
-        MeterPerSecond(self.0 / 3.6)
-    }
-
     pub fn value(&self) -> f64 {
         self.0
     }
 }
 
-impl Add<KilometerPerHour> for MeterPerSecond {
+pub trait ToMeterPerSecond {
+    fn to_meter_per_second(&self) -> MeterPerSecond;
+}
+
+pub trait ToKilometerPerHour {
+    fn to_kilometer_per_hour(&self) -> KilometerPerHour;
+}
+
+impl ToMeterPerSecond for KilometerPerHour {
+    fn to_meter_per_second(&self) -> MeterPerSecond {
+        MeterPerSecond::new(self.0 / 3.6)
+    }
+}
+
+impl ToKilometerPerHour for MeterPerSecond {
+    fn to_kilometer_per_hour(&self) -> KilometerPerHour {
+        KilometerPerHour::new(self.0 * 3.6)
+    }
+}
+
+impl<T> Add<T> for MeterPerSecond
+where
+    T: ToMeterPerSecond,
+{
     type Output = MeterPerSecond;
 
-    fn add(self, rhs: KilometerPerHour) -> Self::Output {
+    fn add(self, rhs: T) -> Self::Output {
         MeterPerSecond(self.0 + rhs.to_meter_per_second().0)
     }
 }
 
-impl Add<MeterPerSecond> for KilometerPerHour {
+impl<T> Add<T> for KilometerPerHour
+where
+    T: ToKilometerPerHour,
+{
     type Output = KilometerPerHour;
 
-    fn add(self, rhs: MeterPerSecond) -> Self::Output {
+    fn add(self, rhs: T) -> Self::Output {
         KilometerPerHour(self.0 + rhs.to_kilometer_per_hour().0)
     }
 }
 
-impl Mul<Second> for MeterPerSecond {
+impl<T> Mul<T> for MeterPerSecond
+where
+    T: ToSecond,
+{
     type Output = Meter;
 
-    fn mul(self, rhs: Second) -> Self::Output {
-        Meter::new(self.0 * rhs.value())
+    fn mul(self, rhs: T) -> Self::Output {
+        Meter::new(self.0 * rhs.to_second().value())
     }
 }
 
@@ -78,11 +99,14 @@ impl Div<Meter> for MeterPerSecond {
     }
 }
 
-impl Div<Second> for MeterPerSecond {
+impl<T> Div<T> for MeterPerSecond
+where
+    T: ToSecond,
+{
     type Output = MeterPerSquareSecond;
 
-    fn div(self, rhs: Second) -> Self::Output {
-        MeterPerSquareSecond::new(self.0 / rhs.value())
+    fn div(self, rhs: T) -> Self::Output {
+        MeterPerSquareSecond::new(self.0 / rhs.to_second().value())
     }
 }
 

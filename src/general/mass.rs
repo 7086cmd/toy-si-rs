@@ -113,7 +113,7 @@ impl ToTon for Gram {
 
 impl<T> Add<T> for Kilogram
 where
-    T: ToKilogram
+    T: ToKilogram,
 {
     type Output = Kilogram;
 
@@ -124,7 +124,7 @@ where
 
 impl<T> Add<T> for Gram
 where
-    T: ToGram
+    T: ToGram,
 {
     type Output = Gram;
 
@@ -135,7 +135,7 @@ where
 
 impl<T> Add<T> for Ton
 where
-    T: ToTon
+    T: ToTon,
 {
     type Output = Ton;
 
